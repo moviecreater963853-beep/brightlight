@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Bright Light Photography Studio & Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Poppins',sans-serif;background:#0a0a0a;color:#fff;scroll-behavior:smooth;}
+.gold{color:#E53935;}
+.gold-bg{background:#E53935;}
+.playfair{font-family:'Playfair Display',serif;}
+nav{position:fixed;top:0;width:100%;z-index:999;background:rgba(10,10,10,0.95);backdrop-filter:blur(10px);border-bottom:1px solid #E5393544;}
+.nav-link{color:#ccc;text-decoration:none;font-size:14px;font-weight:500;letter-spacing:1px;transition:color 0.3s;}
+.nav-link:hover{color:#E53935;}
+.btn-gold{background:#E53935;color:#fff;padding:12px 32px;font-weight:700;letter-spacing:1px;text-transform:uppercase;border:none;cursor:pointer;transition:all 0.3s;font-family:'Poppins',sans-serif;}
+.btn-gold:hover{background:#c62828;color:#fff;transform:translateY(-2px);}
+.btn-outline{background:transparent;color:#E53935;padding:12px 32px;font-weight:700;letter-spacing:1px;text-transform:uppercase;border:2px solid #E53935;cursor:pointer;transition:all 0.3s;font-family:'Poppins',sans-serif;}
+.btn-outline:hover{background:#E53935;color:#fff;}
+.hero{min-height:100vh;background:linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.7)),url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1600') center/cover;}
+.section{padding:80px 20px;}
+.section-title{font-size:42px;font-weight:700;margin-bottom:12px;}
+.section-subtitle{color:#aaa;font-size:16px;margin-bottom:50px;}
+.gold-line{width:60px;height:3px;background:#E53935;margin:16px auto 40px;}
+.service-card{background:#111;border:1px solid #E5393522;padding:40px 30px;text-align:center;transition:all 0.3s;}
+.service-card:hover{border-color:#E53935;transform:translateY(-8px);background:#151515;}
+.service-icon{font-size:48px;margin-bottom:20px;}
+.gallery-img{width:100%;height:250px;object-fit:cover;display:block;transition:transform 0.3s;}
+.gallery-img:hover{transform:scale(1.05);}
+.gallery-item{overflow:hidden;position:relative;}
+.gallery-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.5);opacity:0;transition:0.3s;display:flex;align-items:center;justify-content:center;}
+.gallery-item:hover .gallery-overlay{opacity:1;}
+.category-badge{background:#E53935;color:#fff;padding:4px 12px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;}
+input, textarea, select{background:#fff !important;color:#000 !important;border:1px solid #ddd;padding:14px 18px;width:100%;font-family:'Poppins',sans-serif;font-size:14px;outline:none;transition:border 0.3s;}
+input:focus, textarea:focus, select:focus{border-color:#E53935;}
+input::placeholder, textarea::placeholder{color:#888;}
+.stat-card{background:#111;border:1px solid #E5393522;padding:30px;text-align:center;}
+footer{background:#050505;border-top:1px solid #E5393522;padding:60px 20px 30px;}
+.social-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid #E5393544;color:#E53935;text-decoration:none;transition:all 0.3s;font-size:18px;}
+.social-btn:hover{background:#E53935;color:#fff;}
+#menuToggle{display:none;}
+@media(max-width:768px){
+  .section-title{font-size:28px;}
+  .hero h1{font-size:36px !important;}
+  #mobileMenu{display:none;flex-direction:column;gap:16px;padding:20px;}
+  #mobileMenu.open{display:flex;}
+  #menuToggle{display:block;}
+  #desktopMenu{display:none;}
+}
+.form-success{background:#1a3a1a;border:1px solid #4caf50;color:#4caf50;padding:16px;text-align:center;display:none;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div style="max-width:1200px;margin:auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:70px;">
+    <a href="#home" style="text-decoration:none;">
+      <span class="playfair gold" style="font-size:22px;font-weight:700;">BRIGHT LIGHT</span>
+      <div style="font-size:9px;letter-spacing:3px;color:#aaa;text-transform:uppercase;">Photography Studio</div>
+    </a>
+    <div id="desktopMenu" style="display:flex;gap:32px;align-items:center;">
+      <a href="#home" class="nav-link">Home</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#services" class="nav-link">Services</a>
+      <a href="#gallery" class="nav-link">Gallery</a>
+      <a href="#contact" class="nav-link">Contact</a>
+      <a href="tel:8655187412" class="btn-gold" style="padding:10px 24px;font-size:13px;text-decoration:none;color:#fff;">Book Now</a>
+    </div>
+    <button id="menuToggle" onclick="document.getElementById('mobileMenu').classList.toggle('open')" style="background:none;border:none;color:#E53935;font-size:24px;cursor:pointer;">☰</button>
+  </div>
+  <div id="mobileMenu" style="background:#0a0a0a;border-top:1px solid #E5393522;">
+    <a href="#home" class="nav-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">Home</a>
+    <a href="#about" class="nav-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">About</a>
+    <a href="#services" class="nav-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">Services</a>
+    <a href="#gallery" class="nav-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">Gallery</a>
+    <a href="#contact" class="nav-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">Contact</a>
+  </div>
+</nav>
+
+<section id="home" class="hero" style="display:flex;align-items:center;justify-content:center;text-align:center;">
+  <div style="max-width:800px;padding:20px;">
+    <p style="color:#E53935;letter-spacing:4px;font-size:13px;text-transform:uppercase;margin-bottom:20px;">Photography Studio & Academy</p>
+    <h1 class="playfair" style="font-size:64px;line-height:1.1;margin-bottom:24px;">
+      Capturing Moments,<br/><span class="gold">Creating Memories</span>
+    </h1>
+    <p style="color:#ccc;font-size:18px;margin-bottom:40px;line-height:1.7;">Professional photography that transforms your precious moments into timeless art. Based in Diva, Thane — serving all of Maharashtra.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <a href="#gallery" class="btn-gold" style="text-decoration:none;">Explore Gallery</a>
+      <a href="#contact" class="btn-outline" style="text-decoration:none;">Book Session</a>
+    </div>
+  </div>
+</section>
+
+<section style="background:#E53935;padding:40px 20px;">
+  <div style="max-width:1200px;margin:auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:30px;text-align:center;">
+    <div><div style="font-size:42px;font-weight:700;color:#fff;">10+</div><div style="color:#ffcccc;font-weight:500;letter-spacing:2px;text-transform:uppercase;font-size:13px;">Years Experience</div></div>
+    <div><div style="font-size:42px;font-weight:700;color:#fff;">500+</div><div style="color:#ffcccc;font-weight:500;letter-spacing:2px;text-transform:uppercase;font-size:13px;">Happy Clients</div></div>
+    <div><div style="font-size:42px;font-weight:700;color:#fff;">1000+</div><div style="color:#ffcccc;font-weight:500;letter-spacing:2px;text-transform:uppercase;font-size:13px;">Photos Delivered</div></div>
+    <div><div style="font-size:42px;font-weight:700;color:#fff;">50+</div><div style="color:#ffcccc;font-weight:500;letter-spacing:2px;text-transform:uppercase;font-size:13px;">Students Trained</div></div>
+  </div>
+</section>
+
+<section id="about" class="section" style="background:#0d0d0d;">
+  <div style="max-width:1100px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;">
+    <div>
+      <img src="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=600" style="width:100%;height:450px;object-fit:cover;" alt="Studio"/>
+    </div>
+    <div>
+      <p class="gold" style="letter-spacing:3px;font-size:12px;text-transform:uppercase;">About Us</p>
+      <h2 class="playfair section-title" style="margin-top:12px;">A Philosophy of <span class="gold">Cinematic Truth</span></h2>
+      <div class="gold-line" style="margin:16px 0 24px;"></div>
+      <p style="color:#aaa;line-height:1.9;margin-bottom:16px;">Bright Light Photography Studio & Academy has been capturing life's most precious moments for over a decade. We believe every photograph should tell a story — your story.</p>
+      <p style="color:#aaa;line-height:1.9;margin-bottom:32px;">From intimate portraits to grand wedding celebrations, our team brings technical excellence and artistic vision to every shoot. We also offer photography courses for aspiring photographers.</p>
+      <div style="display:flex;gap:20px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:10px;"><span class="gold">✓</span><span style="color:#ccc;font-size:14px;">Professional Equipment</span></div>
+        <div style="display:flex;align-items:center;gap:10px;"><span class="gold">✓</span><span style="color:#ccc;font-size:14px;">Expert Editing</span></div>
+        <div style="display:flex;align-items:center;gap:10px;"><span class="gold">✓</span><span style="color:#ccc;font-size:14px;">On-time Delivery</span></div>
+        <div style="display:flex;align-items:center;gap:10px;"><span class="gold">✓</span><span style="color:#ccc;font-size:14px;">100% Satisfaction</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="services" class="section" style="text-align:center;">
+  <p class="gold" style="letter-spacing:3px;font-size:12px;text-transform:uppercase;">What We Offer</p>
+  <h2 class="playfair section-title" style="margin-top:12px;">Our <span class="gold">Services</span></h2>
+  <div class="gold-line"></div>
+  <div style="max-width:1200px;margin:auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;">
+    <div class="service-card">
+      <div class="service-icon">💍</div>
+      <h3 style="font-size:20px;font-weight:600;margin-bottom:12px;">Wedding Photography</h3>
+      <p style="color:#aaa;font-size:14px;line-height:1.8;">Capturing your most special day with elegance and emotion. Full day coverage with cinematic style.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">👤</div>
+      <h3 style="font-size:20px;font-weight:600;margin-bottom:12px;">Portrait Photography</h3>
+      <p style="color:#aaa;font-size:14px;line-height:1.8;">Professional portraits for individuals, families, and corporate clients. Studio and outdoor sessions.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">👗</div>
+      <h3 style="font-size:20px;font-weight:600;margin-bottom:12px;">Fashion Photography</h3>
+      <p style="color:#aaa;font-size:14px;line-height:1.8;">High-fashion editorial shoots for models, designers, and brands. Creative concepts and direction.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🎉</div>
+      <h3 style="font-size:20px;font-weight:600;margin-bottom:12px;">Events Photography</h3>
+      <p style="color:#aaa;font-size:14px;line-height:1.8;">Birthday parties, corporate events, product launches. Professional coverage for all occasions.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📦</div>
+      <h3 style="font-size:20px;font-weight:600;margin-bottom:12px;">Product Photography</h3>
+      <p style="color:#aaa;font-size:14px;line-height:1.8;">E-commerce and commercial product shoots. Clean backgrounds and lifestyle setups available.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🎓</div>
+      <h3 style="font-size:20px;font-weight:600;margin-bottom:12px;">Photography Academy</h3>
+      <p style="color:#aaa;font-size:14px;line-height:1.8;">Learn photography from basics to advanced. Beginner, intermediate and professional courses available.</p>
+    </div>
+  </div>
+</section>
+
+<section id="gallery" class="section" style="background:#0d0d0d;text-align:center;">
+  <p class="gold" style="letter-spacing:3px;font-size:12px;text-transform:uppercase;">Our Work</p>
+  <h2 class="playfair section-title" style="margin-top:12px;">Photo <span class="gold">Gallery</span></h2>
+  <div class="gold-line"></div>
+
+  <div style="max-width:1200px;margin:auto;">
+    <p style="color:#aaa;margin-bottom:30px;">Weddings</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:4px;margin-bottom:40px;">
+      <div class="gallery-item"><img class="gallery-img" src="https://images.unsplash.com/photo-1519741497674-611481863552?w=600" alt="Wedding 1"/><div class="gallery-overlay"><span class="category-badge">Weddings</span></div></div>
+      <div class="gallery-item"><img class="gallery-img" src="https://images.unsplash.com/photo-1606800052052-a08af7148866?w=600" alt="Wedding 2"/><div class="gallery-overlay"><span class="category-badge">Weddings</span></div></div>
+      <div class="gallery-item"><img class="gallery-img" src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600" alt="Wedding 3"/><div class="gallery-overlay"><span class="category-badge">Weddings</span></div></div>
+    </div>
+
+    <p style="color:#aaa;margin-bottom:30px;">Portraits</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:4px;margin-bottom:40px;">
+      <div class="gallery-item"><img class="gallery-img" src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600" alt="Portrait 1"/><div class="gallery-overlay"><span class="category-badge">Portraits</span></div></div>
+      <div class="gallery-item"><img class="gallery-img" src="https://images.unsplash.com/photo-1504703395950-b89145a5425b?w=600" alt="Portrait 2"/><div class="gallery-overlay"><span class="category-badge">Portraits</span></div></div>
+      <div class="gallery-item"><img class="gallery-img" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600" alt="Portrait 3"/><div class="gallery-overlay"><span class="category-badge">Portraits</span></div></div>
+    </div>
+
+    <p style="color:#aaa;margin-bottom:30px;">Fashion</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:4px;margin-bottom:40px;">
+      <div class="gallery-item"><img class="gallery-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600" alt="Fashion 1"/><div class="gallery-overlay"><span class="category-badge">Fashion</span></div></div>
+      <div class="gallery-item"><img class="gallery-img" src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600" alt="Fashion 2"/><div class="gallery-overlay"><span class="category-badge">Fashion</span></div></div>
+      <div class="gallery-item"><img class="gallery-img" src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=600" alt="Fashion 3"/><div class="gallery-overlay"><span class="category-badge">Fashion</span></div></div>
+    </div>
+
+    <p style="color:#aaa;margin-bottom:30px;">Events</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:4px;">
+      <div class="gallery-item"><img class="gallery-img" src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=600" alt="Event 1"/><div class="gallery-overlay"><span class="category-badge">Events</span></div></div>
+      <div class="gallery-item"><img class="gallery-img" src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=600" alt="Event 2"/><div class="gallery-overlay"><span class="category-badge">Events</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="section" style="text-align:center;">
+  <p class="gold" style="letter-spacing:3px;font-size:12px;text-transform:uppercase;">Get In Touch</p>
+  <h2 class="playfair section-title" style="margin-top:12px;">Book a <span class="gold">Session</span></h2>
+  <div class="gold-line"></div>
+  <div style="max-width:1000px;margin:auto;display:grid;grid-template-columns:1fr 1.5fr;gap:50px;text-align:left;">
+    <div>
+      <h3 style="font-size:20px;font-weight:600;margin-bottom:24px;">Contact Info</h3>
+      <div style="display:flex;flex-direction:column;gap:20px;">
+        <div style="display:flex;align-items:flex-start;gap:16px;">
+          <span class="gold" style="font-size:20px;margin-top:2px;">📞</span>
+          <div><p style="color:#aaa;font-size:12px;text-transform:uppercase;letter-spacing:1px;">Phone</p><a href="tel:8655187412" style="color:#fff;text-decoration:none;font-size:16px;font-weight:500;">8655187412</a></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:16px;">
+          <span class="gold" style="font-size:20px;margin-top:2px;">✉️</span>
+          <div><p style="color:#aaa;font-size:12px;text-transform:uppercase;letter-spacing:1px;">Email</p><a href="mailto:businesstoxic49@gmail.com" style="color:#fff;text-decoration:none;font-size:15px;">businesstoxic49@gmail.com</a></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:16px;">
+          <span class="gold" style="font-size:20px;margin-top:2px;">📍</span>
+          <div><p style="color:#aaa;font-size:12px;text-transform:uppercase;letter-spacing:1px;">Location</p><p style="color:#fff;font-size:15px;">Diva, Thane, Maharashtra</p></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:16px;">
+          <span class="gold" style="font-size:20px;margin-top:2px;">📸</span>
+          <div><p style="color:#aaa;font-size:12px;text-transform:uppercase;letter-spacing:1px;">Instagram</p><a href="https://instagram.com/aiagent_nitin222" target="_blank" style="color:#ff6b6b;text-decoration:none;">@aiagent_nitin222</a></div>
+        </div>
+      </div>
+      <div style="margin-top:32px;">
+        <a href="https://wa.me/918655187412" target="_blank" class="btn-gold" style="text-decoration:none;display:inline-block;margin-bottom:12px;">💬 WhatsApp Now</a>
+      </div>
+    </div>
+
+    <div>
+      <div class="form-success" id="formSuccess">✅ Message sent successfully! We will contact you soon.</div>
+      <form action="https://formspree.io/f/xnjoeglw" method="POST" id="contactForm" style="display:flex;flex-direction:column;gap:16px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div><label style="font-size:12px;color:#aaa;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:6px;">Full Name *</label><input type="text" name="name" placeholder="Your full name" required/></div>
+          <div><label style="font-size:12px;color:#aaa;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:6px;">Phone Number *</label><input type="tel" name="phone" placeholder="Your mobile number" required/></div>
+        </div>
+        <div><label style="font-size:12px;color:#aaa;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:6px;">Email Address *</label><input type="email" name="email" placeholder="your@email.com" required/></div>
+        <div><label style="font-size:12px;color:#aaa;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:6px;">Service Required</label>
+          <select name="service" style="background:#fff !important;color:#000 !important;border:1px solid #ddd;padding:14px 18px;width:100%;font-family:'Poppins',sans-serif;font-size:14px;">
+            <option value="">Select a service...</option>
+            <option>Wedding Photography</option>
+            <option>Portrait Photography</option>
+            <option>Fashion Photography</option>
+            <option>Events Photography</option>
+            <option>Product Photography</option>
+            <option>Photography Course</option>
+          </select>
+        </div>
+        <div><label style="font-size:12px;color:#aaa;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:6px;">Subject</label><input type="text" name="subject" placeholder="Brief subject of your enquiry"/></div>
+        <div><label style="font-size:12px;color:#aaa;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:6px;">Message *</label><textarea name="message" rows="5" placeholder="Tell us about your requirements, date, location..." required></textarea></div>
+        <button type="submit" class="btn-gold" style="width:100%;font-size:15px;padding:16px;">Send Message →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div style="max-width:1200px;margin:auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:40px;margin-bottom:40px;">
+    <div>
+      <span class="playfair gold" style="font-size:24px;font-weight:700;">BRIGHT LIGHT</span>
+      <p style="color:#aaa;font-size:14px;line-height:1.8;margin-top:12px;">Professional photography studio and academy based in Diva, Thane. Capturing your most precious moments with artistic excellence.</p>
+    </div>
+    <div>
+      <h4 style="font-size:14px;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:20px;" class="gold">Quick Links</h4>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <a href="#home" style="color:#aaa;text-decoration:none;font-size:14px;transition:color 0.3s;" onmouseover="this.style.color='#E53935'" onmouseout="this.style.color='#aaa'">Home</a>
+        <a href="#about" style="color:#aaa;text-decoration:none;font-size:14px;" onmouseover="this.style.color='#E53935'" onmouseout="this.style.color='#aaa'">About Us</a>
+        <a href="#services" style="color:#aaa;text-decoration:none;font-size:14px;" onmouseover="this.style.color='#E53935'" onmouseout="this.style.color='#aaa'">Services</a>
+        <a href="#gallery" style="color:#aaa;text-decoration:none;font-size:14px;" onmouseover="this.style.color='#E53935'" onmouseout="this.style.color='#aaa'">Gallery</a>
+        <a href="#contact" style="color:#aaa;text-decoration:none;font-size:14px;" onmouseover="this.style.color='#E53935'" onmouseout="this.style.color='#aaa'">Contact</a>
+      </div>
+    </div>
+    <div>
+      <h4 style="font-size:14px;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:20px;" class="gold">Contact</h4>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <a href="tel:8655187412" style="color:#aaa;text-decoration:none;font-size:14px;">📞 8655187412</a>
+        <a href="mailto:businesstoxic49@gmail.com" style="color:#aaa;text-decoration:none;font-size:14px;">✉️ businesstoxic49@gmail.com</a>
+        <p style="color:#aaa;font-size:14px;">📍 Diva, Thane, Maharashtra</p>
+      </div>
+    </div>
+    <div>
+      <h4 style="font-size:14px;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:20px;" class="gold">Follow Us</h4>
+      <div style="display:flex;gap:12px;">
+        <a href="https://instagram.com/aiagent_nitin222" target="_blank" class="social-btn">📸</a>
+        <a href="https://wa.me/918655187412" target="_blank" class="social-btn">💬</a>
+        <a href="mailto:businesstoxic49@gmail.com" class="social-btn">✉️</a>
+      </div>
+      <p style="color:#aaa;font-size:13px;margin-top:16px;">@aiagent_nitin222</p>
+    </div>
+  </div>
+  <div style="border-top:1px solid #E5393522;padding-top:24px;text-align:center;">
+    <p style="color:#555;font-size:13px;">© 2024 Bright Light Photography Studio & Academy. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+document.getElementById('contactForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const btn = this.querySelector('button[type="submit"]');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+  try {
+    const res = await fetch(this.action, {method:'POST', body: new FormData(this), headers:{Accept:'application/json'}});
+    if(res.ok){
+      document.getElementById('formSuccess').style.display = 'block';
+      this.reset();
+    } else {
+      alert('Something went wrong. Please try again.');
+    }
+  } catch(err){
+    alert('Something went wrong. Please try again.');
+  }
+  btn.textContent = 'Send Message →';
+  btn.disabled = false;
+});
+</script>
+</body>
+</html>
