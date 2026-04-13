@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://moviecreater963853-beep.github.io/brightlight/sitemap.xml
