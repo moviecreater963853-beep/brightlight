@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Framegatha Photography Studio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        charcoal: '#1a1a1a',
+                        gold: '#c9a84c',
+                        lightgray: '#e5e5e5'
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Embedded Custom CSS -->
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            background-color: #ffffff;
+            color: #1a1a1a;
+        }
+        .hero-slide {
+            transition: opacity 1s ease-in-out;
+        }
+        .gallery-card {
+            transition: opacity 0.3s ease;
+        }
+        .nav-link.active {
+            color: #c9a84c; /* Gold */
+            font-weight: 600;
+        }
+        /* Hide scrollbar for clean modals if needed */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;  
+            scrollbar-width: none;  
+        }
+    </style>
+</head>
+<body class="antialiased font-sans">
+
+    <!-- Sticky Navbar -->
+    <nav class="bg-white sticky top-0 z-50 border-b border-lightgray shadow-sm w-full transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 md:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex flex-col">
+                    <a href="#home" class="text-2xl md:text-3xl font-bold text-gold tracking-wider leading-none">FRAMEGATHA</a>
+                    <span class="text-xs text-charcoal uppercase tracking-widest font-semibold mt-1">Photography Studio</span>
+                </div>
+                
+                <!-- Nav Links (Desktop) -->
+                <div class="hidden lg:flex space-x-6 items-center">
+                    <a href="#home" class="nav-link text-charcoal hover:text-gold transition-colors text-sm uppercase tracking-wide">Home</a>
+                    <a href="javascript:void(0)" onclick="filterGallery('wedding')" data-navtab="wedding" class="nav-link nav-filter text-charcoal hover:text-gold transition-colors text-sm uppercase tracking-wide">Wedding</a>
+                    <a href="javascript:void(0)" onclick="filterGallery('haldi')" data-navtab="haldi" class="nav-link nav-filter text-charcoal hover:text-gold transition-colors text-sm uppercase tracking-wide">Haldi</a>
+                    <a href="javascript:void(0)" onclick="filterGallery('mehendi')" data-navtab="mehendi" class="nav-link nav-filter text-charcoal hover:text-gold transition-colors text-sm uppercase tracking-wide">Mehendi</a>
+                    <a href="javascript:void(0)" onclick="filterGallery('all')" data-navtab="all" class="nav-link nav-filter text-charcoal hover:text-gold transition-colors text-sm uppercase tracking-wide">Gallery</a>
+                    <a href="#services" class="nav-link text-charcoal hover:text-gold transition-colors text-sm uppercase tracking-wide">Services</a>
+                    <a href="#about" class="nav-link text-charcoal hover:text-gold transition-colors text-sm uppercase tracking-wide">About Us</a>
+                    <a href="#contact" class="nav-link text-charcoal hover:text-gold transition-colors text-sm uppercase tracking-wide">Contact Us</a>
+                </div>
+
+                <!-- Book Now CTA -->
+                <div class="hidden md:flex">
+                    <a href="#quote" class="bg-gold text-charcoal px-6 py-2 rounded-sm font-semibold hover:bg-yellow-600 transition-colors shadow-md">Book Now</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button class="text-charcoal focus:outline-none" id="mobileMenuBtn">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu Dropdown -->
+            <div class="md:hidden hidden pb-4 pt-2 border-t border-lightgray" id="mobileMenu">
+                <a href="#home" class="block py-2 text-charcoal font-semibold">Home</a>
+                <a href="javascript:void(0)" onclick="mobileMenu.classList.add('hidden'); filterGallery('wedding')" class="block py-2 text-charcoal font-semibold">Wedding</a>
+                <a href="javascript:void(0)" onclick="mobileMenu.classList.add('hidden'); filterGallery('haldi')" class="block py-2 text-charcoal font-semibold">Haldi</a>
+                <a href="javascript:void(0)" onclick="mobileMenu.classList.add('hidden'); filterGallery('mehendi')" class="block py-2 text-charcoal font-semibold">Mehendi</a>
+                <a href="javascript:void(0)" onclick="mobileMenu.classList.add('hidden'); filterGallery('all')" class="block py-2 text-charcoal font-semibold">Gallery</a>
+                <a href="#services" class="block py-2 text-charcoal font-semibold">Services</a>
+                <a href="#about" class="block py-2 text-charcoal font-semibold">About Us</a>
+                <a href="#contact" class="block py-2 text-charcoal font-semibold">Contact Us</a>
+                <a href="#quote" class="block py-2 mt-2 bg-gold text-charcoal text-center rounded-sm font-semibold">Book Now</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main View Wrapping Container -->
+    <main id="mainView" class="w-full transition-opacity duration-300">
+
+    <!-- Auto Slideshow Hero Section -->
+    <section id="home" class="relative w-full h-[80vh] overflow-hidden bg-charcoal">
+        <div class="hero-slide absolute inset-0 w-full h-full opacity-100"><img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1920&q=80" alt="Wedding Couple" class="w-full h-full object-cover"></div>
+        <div class="hero-slide absolute inset-0 w-full h-full opacity-0"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1920&q=80" alt="Wedding Details" class="w-full h-full object-cover"></div>
+        <div class="hero-slide absolute inset-0 w-full h-full opacity-0"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1920&q=80" alt="Wedding Ring" class="w-full h-full object-cover"></div>
+        <div class="hero-slide absolute inset-0 w-full h-full opacity-0"><img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=1920&q=80" alt="Bride Outdoor" class="w-full h-full object-cover"></div>
+        <div class="hero-slide absolute inset-0 w-full h-full opacity-0"><img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=1920&q=80" alt="Wedding Celebration" class="w-full h-full object-cover"></div>
+        <div class="hero-slide absolute inset-0 w-full h-full opacity-0"><img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=1920&q=80" alt="Event Details" class="w-full h-full object-cover"></div>
+        <div class="absolute inset-0 bg-black/40 z-10 flex flex-col items-center justify-center text-center px-4">
+            <h1 class="text-4xl md:text-6xl text-white font-bold mb-4 drop-shadow-xl tracking-tight">Capturing Your Precious Moments</h1>
+            <h2 class="text-xl md:text-2xl text-gold font-semibold mb-10 drop-shadow-lg">Professional Wedding & Event Photography</h2>
+            <a href="#quote" class="bg-gold text-charcoal px-10 py-4 text-lg rounded-sm font-bold shadow-2xl hover:bg-yellow-500 transition-colors hover:scale-105 transform duration-300">Book Now</a>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-24 px-4 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-10">
+                <h2 class="text-4xl font-bold text-charcoal mb-4">Our Gallery</h2>
+                <div class="w-24 h-1 bg-gold mx-auto"></div>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="flex flex-wrap justify-center gap-3 mb-6">
+                <button onclick="filterGallery('all')" data-tab="all" class="filter-tab px-6 py-2 rounded border transition-colors font-semibold bg-gold text-white border-gold shadow-sm">All</button>
+                <button onclick="filterGallery('wedding')" data-tab="wedding" class="filter-tab px-6 py-2 rounded border transition-colors font-semibold bg-white text-charcoal border-charcoal shadow-sm">Wedding</button>
+                <button onclick="filterGallery('haldi')" data-tab="haldi" class="filter-tab px-6 py-2 rounded border transition-colors font-semibold bg-white text-charcoal border-charcoal shadow-sm">Haldi</button>
+                <button onclick="filterGallery('mehendi')" data-tab="mehendi" class="filter-tab px-6 py-2 rounded border transition-colors font-semibold bg-white text-charcoal border-charcoal shadow-sm">Mehendi</button>
+                <button onclick="filterGallery('prewedding')" data-tab="prewedding" class="filter-tab px-6 py-2 rounded border transition-colors font-semibold bg-white text-charcoal border-charcoal shadow-sm">Pre-Wedding</button>
+                <button onclick="filterGallery('birthday')" data-tab="birthday" class="filter-tab px-6 py-2 rounded border transition-colors font-semibold bg-white text-charcoal border-charcoal shadow-sm">Birthday</button>
+            </div>
+            
+            <!-- Count Label -->
+            <div class="text-center mb-12">
+                <p id="galleryCount" class="text-gray-500 font-semibold italic">Showing 19 All photos</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="galleryGrid">
+                <!-- WEDDING (6 cards) -->
+                <div class="gallery-card bg-white border border-lightgray rounded hover:shadow-xl transition-shadow cursor-pointer overflow-hidden group" data-category="wedding" onclick="openModal('Sharma & Priya', 'Full Wedding', 'Mumbai', '12 Jan 2026')">
+                    <div class="h-64 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=600&q=80" alt="Wedding" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"><div class="absolute inset-0 bg-charcoal/20 group-hover:bg-transparent transition-colors"></div></div>
+                    <div class="p-6 text-center"><h3 class="text-xl font-bold text-charcoal">Sharma & Priya</h3><p class="text-gold font-medium text-sm mt-1 uppercase tracking-widest">Full Wedding — Mumbai</p></div>
+                </div>
+                <div class="gallery-card bg-white border border-lightgray rounded hover:shadow-xl transition-shadow cursor-pointer overflow-hidden group" data-category="wedding" onclick="openModal('Rahul & Neha', 'Wedding Ceremony', 'Pune', '05 Feb 2026')">
+                    <div class="h-64 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=600&q=80" alt="Wedding" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"></div>
+                    <div class="p-6 text-center"><h3 class="text-xl font-bold text-charcoal">Rahul & Neha</h3><p class="text-gold font-medium text-sm mt-1 uppercase tracking-widest">Wedding Ceremony — Pune</p></div>
+                </div>
+                <div class="gallery-card bg-white border border-lightgray rounded hover:shadow-xl transition-shadow cursor-pointer overflow-hidden group" data-category="wedding" onclick="openModal('Arjun & Kavya', 'Wedding Day', 'Goa', '14 Feb 2026')">
+                    <div class="h-64 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=600&q=80" alt="Wedding" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"></div>
+                    <div class="p-6 text-center"><h3 class="text-xl font-bold text-charcoal">Arjun & Kavya</h3><p class="text-gold font-medium text-sm mt-1 uppercase tracking-widest">Wedding Day — Goa</p></div>
+                </div>
+                <div class="gallery-card bg-white border border-lightgray rounded hover:shadow-xl transition-shadow cursor-pointer overflow-hidden group" data-category="wedding" onclick="openModal('Vikram & Ananya', 'Royal Wedding', 'Delhi', '21 Feb 2026')">
+                    <div class="h-64 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=600&q=80" alt="Wedding" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"></div>
+                    <div class="p-6 text-center"><h3 class="text-xl font-bold text-charcoal">Vikram & Ananya</h3><p class="text-gold font-medium text-sm mt-1 uppercase tracking-widest">Royal Wedding — Delhi</p></div>
+                </div>
+                <div class="gallery-card bg-white border border-lightgray rounded hover:shadow-xl transition-shadow cursor-pointer overflow-hidden group" data-category="wedding" onclick="openModal('Karan & Pooja', 'Destination Wedding', 'Rajasthan', '08 Mar 2026')">
+                    <div class="h-64 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=600&q=80" alt="Wedding" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"></div>
+                    <div class="p-6 text-center"><h3 class="text-xl font-bold text-charcoal">Karan & Pooja</h3><p class="text-gold font-medium text-sm mt-1 uppercase tracking-widest">Destination Wedding — Rajasthan</p></div>
+                </div>
+                <div class="gallery-card bg-white border border-lightgray rounded hover:shadow-xl transition-shadow cursor-pointer overflow-hidden group" data-category="wedding" onclick="openModal('Amit & Riya', 'Traditional Wedding', 'Nashik', '15 Mar 2026')">
+                    <div class="h-64 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1583939000340-c6e73f8e5621?auto=format&fit=crop&w=600&q=80" alt="Wedding" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"></div>
+                    <div class="p-6 text-center"><h3 class="text-xl font-bold text-charcoal">Amit & Riya</h3><p class="text-gold font-medium text-sm mt-1 uppercase tracking-widest">Traditional Wedding — Nashik</p></div>
+                </div>
+
+                <!-- HALDI (4 cards) -->
+                <div class="gallery-card bg-white border border-lightgray rounded hover:shadow-xl transition-shadow cursor-pointer overflow-hidden group" data-category="haldi" onclick="openModal('Deepak & Simran', 'Haldi Morning', 'Mumbai', '10 Jan 2026')">
+                    <div class="h-64 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1542036728-662f5d9daaf3?auto=format&fit=crop&w=600&q=80" alt="Haldi" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"></div>
+                    <div class="p-6 text-center"><h3 class="text-xl font-bold text-charcoal">Deepak & Simran</h3><p class="text-gold font-medium text-sm mt-1 uppercase tracking-widest">Haldi Morning — Mumbai</p></div>
+                </div>
+                <div class="gallery-card bg-white border border-lightgray rounded hover:shadow-xl transition-shadow cursor-pointer overflow-hidden group" data-category="haldi" onclick="openModal('Rohan & Meera', 'Colorful Haldi', 'Pune', '03 Feb 2026')">
+                    <div class="h-64 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=600&q=80" alt="Haldi" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"></div>
+                    <div class="p-6 text-center"><h3 class="text-xl font-bold text-charcoal">Rohan & Meera</h3><p class="text-gold font-medium text-sm mt-1 uppercase tracking-widest">Colorful Haldi — Pune</p></div>
+                </div>
+                <div class="gallery-card bg-white border border-lightgray rounded hover:shadow-xl transition-shadow cursor-pointer overflow-hidden group" data-category="haldi" onclick="openModal('Nikhil & Preethi', 'Fun Haldi', 'Bangalore', '11 Feb 2026')">
+                    <div class="h-64 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=600&q=80" alt="Haldi" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"></div>
+                    <div class="p-6 text-center"><h3 class="text-xl font-bold text-charcoal">Nikhil & Preethi</h3><p class="text-gold font-medium text-sm mt-1 uppercase tracking-widest">Fun Haldi — Bangalore</p></div>
+                </div>
+                <div class="gallery-card bg-white border border-lightgray rounded hover:shadow-xl transition-shadow cursor-pointer overflow-hidden group" data-category="haldi" onclick="openModal('Siddharth & Anika', 'Haldi Ceremony', 'Nagpur', '19 Feb 2026')">
+                    <div class="h-64 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=600&q=80" alt="Haldi" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"></div>
+                    <div class="p-6 text-center"><h3 class="text-xl font-bold text-charcoal">Siddharth & Anika</h3><p class="text-gold font-medium text-sm mt-1 uppercase tracking-widest">Haldi Ceremony — Nagpur</p></div>
+                </div>
+
+                <!-- MEHENDI (4 cards) -->
+                <div class="gallery-card bg-white border border-lightgray rounded hover:shadow-xl transition-shadow cursor-pointer overflow-hidden group" data-category="mehendi" onclick="openModal('Rohit & Priya', 'Mehendi Evening', 'Mumbai', '11 Jan 2026')">
+                    <div class="h-64 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1583939000340-c6e73f8e5621?auto=format&fit=crop&w=600&q=80" alt="Mehendi" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"></div>
+                    <div class="p-6 text-center"><h3 class="text-xl font-bold text-charcoal">Rohit & Priya</h3><p class="text-gold font-medium text-sm mt-1 uppercase tracking-widest">Mehendi Evening — Mumbai</p></div>
+                </div>
+                <div class="gallery-card bg-white border border-lightgray rounded hover:shadow-xl transition-shadow cursor-pointer overflow-hidden group" data-category="mehendi" onclick="openModal('Aakash & Nisha', 'Bridal Mehendi', 'Hyderabad', '04 Feb 2026')">
+                    <div class="h-64 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=600&q=80" alt="Mehendi" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"></div>
+                    <div class="p-6 text-center"><h3 class="text-xl font-bold text-charcoal">Aakash & Nisha</h3><p class="text-gold font-medium text-sm mt-1 uppercase tracking-widest">Bridal Mehendi — Hyderabad</p></div>
+                </div>
+                <div class="gallery-card bg-white border border-lightgray rounded hover:shadow-xl transition-shadow cursor-pointer overflow-hidden group" data-category="mehendi" onclick="openModal('Dev & Shreya', 'Mehendi Night', 'Chennai', '12 Feb 2026')">
+                    <div class="h-64 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=600&q=80" alt="Mehendi" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"></div>
+                    <div class="p-6 text-center"><h3 class="text-xl font-bold text-charcoal">Dev & Shreya</h3><p class="text-gold font-medium text-sm mt-1 uppercase tracking-widest">Mehendi Night — Chennai</p></div>
+                </div>
+                <div class="gallery-card bg-white border border-lightgray rounded hover:shadow-xl transition-shadow cursor-pointer overflow-hidden group" data-category="mehendi" onclick="openModal('Manish & Kajal', 'Full Mehendi Function', 'Surat', '20 Feb 2026')">
+                    <div class="h-64 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=600&q=80" alt="Mehendi" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"></div>
+                    <div class="p-6 text-center"><h3 class="text-xl font-bold text-charcoal">Manish & Kajal</h3><p class="text-gold font-medium text-sm mt-1 uppercase tracking-widest">Full Mehendi Function — Surat</p></div>
+                </div>
+
+                <!-- PRE-WEDDING (3 cards) -->
+                <div class="gallery-card bg-white border border-lightgray rounded hover:shadow-xl transition-shadow cursor-pointer overflow-hidden group" data-category="prewedding" onclick="openModal('Jay & Pooja', 'Beach Shoot', 'Goa', '15 Nov 2025')">
+                    <div class="h-64 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1542036728-662f5d9daaf3?auto=format&fit=crop&w=600&q=80" alt="Pre-Wedding" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"></div>
+                    <div class="p-6 text-center"><h3 class="text-xl font-bold text-charcoal">Jay & Pooja</h3><p class="text-gold font-medium text-sm mt-1 uppercase tracking-widest">Beach Shoot — Goa</p></div>
+                </div>
+                <div class="gallery-card bg-white border border-lightgray rounded hover:shadow-xl transition-shadow cursor-pointer overflow-hidden group" data-category="prewedding" onclick="openModal('Yash & Riddhi', 'Outdoor Shoot', 'Lonavala', '28 Nov 2025')">
+                    <div class="h-64 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=600&q=80" alt="Pre-Wedding" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"></div>
+                    <div class="p-6 text-center"><h3 class="text-xl font-bold text-charcoal">Yash & Riddhi</h3><p class="text-gold font-medium text-sm mt-1 uppercase tracking-widest">Outdoor Shoot — Lonavala</p></div>
+                </div>
+                <div class="gallery-card bg-white border border-lightgray rounded hover:shadow-xl transition-shadow cursor-pointer overflow-hidden group" data-category="prewedding" onclick="openModal('Sagar & Tanu', 'Studio Shoot', 'Mumbai', '10 Dec 2025')">
+                    <div class="h-64 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1583939000340-c6e73f8e5621?auto=format&fit=crop&w=600&q=80" alt="Pre-Wedding" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"></div>
+                    <div class="p-6 text-center"><h3 class="text-xl font-bold text-charcoal">Sagar & Tanu</h3><p class="text-gold font-medium text-sm mt-1 uppercase tracking-widest">Studio Shoot — Mumbai</p></div>
+                </div>
+
+                <!-- BIRTHDAY (2 cards) -->
+                <div class="gallery-card bg-white border border-lightgray rounded hover:shadow-xl transition-shadow cursor-pointer overflow-hidden group" data-category="birthday" onclick="openModal('Baby Aarav', '1st Birthday', 'Mumbai', '05 Jan 2026')">
+                    <div class="h-64 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=600&q=80" alt="Birthday" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"></div>
+                    <div class="p-6 text-center"><h3 class="text-xl font-bold text-charcoal">Baby Aarav</h3><p class="text-gold font-medium text-sm mt-1 uppercase tracking-widest">1st Birthday — Mumbai</p></div>
+                </div>
+                <div class="gallery-card bg-white border border-lightgray rounded hover:shadow-xl transition-shadow cursor-pointer overflow-hidden group" data-category="birthday" onclick="openModal('Sonali\'s 25th', 'Birthday Bash', 'Pune', '22 Jan 2026')">
+                    <div class="h-64 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=600&q=80" alt="Birthday" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"></div>
+                    <div class="p-6 text-center"><h3 class="text-xl font-bold text-charcoal">Sonali's 25th</h3><p class="text-gold font-medium text-sm mt-1 uppercase tracking-widest">Birthday Bash — Pune</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 px-4 bg-[#fafafa]">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-charcoal mb-4">Our Services</h2>
+                <div class="w-24 h-1 bg-gold mx-auto"></div>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">Comprehensive photography and cinematography for all your cherished moments.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white border border-lightgray p-8 rounded flex items-start gap-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+                    <div class="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center shrink-0">
+                        <svg class="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-charcoal mb-2">Wedding Photography</h3>
+                        <p class="text-gray-600">Capturing the raw emotions, vows, and grand celebrations of your big day with an editorial and candid perspective.</p>
+                    </div>
+                </div>
+                <div class="bg-white border border-lightgray p-8 rounded flex items-start gap-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+                    <div class="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center shrink-0">
+                        <svg class="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-charcoal mb-2">Haldi Ceremony</h3>
+                        <p class="text-gray-600">Preserving the vibrant yellows, playful splashes, and joyous family bonding in bright and vivid frames.</p>
+                    </div>
+                </div>
+                <div class="bg-white border border-lightgray p-8 rounded flex items-start gap-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+                    <div class="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center shrink-0">
+                        <svg class="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"></path></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-charcoal mb-2">Mehendi Function</h3>
+                        <p class="text-gray-600">Highlighting the intricate henna designs, cultural dances, and the colorful festive atmosphere of the evening.</p>
+                    </div>
+                </div>
+                <div class="bg-white border border-lightgray p-8 rounded flex items-start gap-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+                    <div class="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center shrink-0">
+                        <svg class="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-charcoal mb-2">Pre-Wedding Shoot</h3>
+                        <p class="text-gray-600">Romantic, styled, and scenic photo sessions tailored to tell your unique love story before the wedding madness begins.</p>
+                    </div>
+                </div>
+                <div class="bg-white border border-lightgray p-8 rounded flex items-start gap-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+                    <div class="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center shrink-0">
+                        <svg class="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z"></path></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-charcoal mb-2">Birthday & Events</h3>
+                        <p class="text-gray-600">Event coverage specifically crafted for milestones: sweet sixteens, silver jubilees, baby showers, and grand galas.</p>
+                    </div>
+                </div>
+                <div class="bg-white border border-lightgray p-8 rounded flex items-start gap-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+                    <div class="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center shrink-0">
+                        <svg class="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-charcoal mb-2">Videography</h3>
+                        <p class="text-gray-600">Cinematic wedding films and traditional videos, paired with touching music to immortalize your memories in motion.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instant Price Quote Form -->
+    <section id="quote" class="py-24 px-4 bg-white border-t-4 border-gold">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-charcoal mb-4">Get Instant Price Quote</h2>
+                <div class="w-24 h-1 bg-gold mx-auto"></div>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">Select your event requirements to see an instant estimate, and send a booking request to secure your date.</p>
+            </div>
+
+            <div class="bg-white border border-lightgray rounded-lg p-8 md:p-12 shadow-2xl">
+                <form id="priceQuoteForm" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-charcoal mb-2">Full Name</label>
+                            <input type="text" required class="w-full bg-[#f9f9f9] border border-lightgray px-4 py-3 rounded text-charcoal focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold" placeholder="John Doe">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-charcoal mb-2">Phone Number</label>
+                            <input type="tel" required class="w-full bg-[#f9f9f9] border border-lightgray px-4 py-3 rounded text-charcoal focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold" placeholder="+91 98765 43210">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-charcoal mb-2">Event Date</label>
+                            <input type="date" required class="w-full bg-[#f9f9f9] border border-lightgray px-4 py-3 rounded text-charcoal focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-charcoal mb-2">Location / City</label>
+                            <input type="text" required class="w-full bg-[#f9f9f9] border border-lightgray px-4 py-3 rounded text-charcoal focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold" placeholder="Mumbai">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-charcoal mb-2">Select Service</label>
+                        <select id="serviceSelect" required class="w-full bg-[#f9f9f9] border border-lightgray px-4 py-3 rounded text-charcoal focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold cursor-pointer">
+                            <option value="" selected disabled>-- Choose a package --</option>
+                            <option data-price="₹20,000" value="Wedding Photography (Full Day)">Wedding Photography — Full Day</option>
+                            <option data-price="₹35,000" value="Wedding Photo + Video">Wedding Photography + Videography</option>
+                            <option data-price="₹8,000" value="Haldi Ceremony">Haldi Ceremony</option>
+                            <option data-price="₹7,000" value="Mehendi Function">Mehendi Function</option>
+                            <option data-price="₹14,000" value="Haldi + Mehendi Combo">Haldi + Mehendi Combo</option>
+                            <option data-price="₹12,000" value="Pre-Wedding Shoot">Pre-Wedding Shoot</option>
+                            <option data-price="₹5,000" value="Birthday / Event">Birthday / Event</option>
+                            <option data-price="₹45,000" value="Full Wedding Package">Full Wedding Package (All Events)</option>
+                            <option data-price="₹60,000" value="Premium Package">Premium Package (Photo + Video + Album)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-charcoal mb-2">Special Requirements (Optional)</label>
+                        <textarea rows="3" class="w-full bg-[#f9f9f9] border border-lightgray px-4 py-3 rounded text-charcoal focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold" placeholder="Any specific details we should know?"></textarea>
+                    </div>
+
+                    <div id="priceBox" class="hidden bg-gold/10 border-2 border-gold rounded-md p-6 text-center transform transition-all duration-500">
+                        <span class="text-charcoal font-semibold block mb-1">Estimated Price</span>
+                        <span id="priceAmount" class="text-4xl font-bold text-gold"></span>
+                    </div>
+
+                    <button type="submit" class="w-full bg-charcoal text-white text-lg font-bold py-4 rounded hover:bg-black transition-colors duration-300">
+                        Send Booking Request
+                    </button>
+                    
+                    <div id="quoteSuccess" class="hidden text-center text-green-600 font-bold p-4 bg-green-50 rounded border border-green-200">
+                        We will contact you within 24 hours!
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="py-24 px-4 bg-[#fafafa]">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-charcoal mb-4">Testimonials</h2>
+                <div class="w-24 h-1 bg-gold mx-auto"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white border border-lightgray p-8 rounded shadow-sm">
+                    <div class="flex text-gold mb-4"><svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
+                    <p class="text-gray-600 mb-6 italic">"Framegatha completely transformed our wedding experience. The pictures came out breathtaking, capturing candid moments we didn't even realize were happening!"</p>
+                    <h4 class="font-bold text-charcoal">Shivani & rahul</h4><span class="text-sm text-gold font-semibold uppercase">Mumbai</span>
+                </div>
+                <div class="bg-white border border-lightgray p-8 rounded shadow-sm">
+                    <div class="flex text-gold mb-4"><svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
+                    <p class="text-gray-600 mb-6 italic">"Highly professional and cooperative team. The cinematic video was like a Bollywood movie, and the photo album quality is super premium!"</p>
+                    <h4 class="font-bold text-charcoal">Arjun & Meera</h4><span class="text-sm text-gold font-semibold uppercase">Pune</span>
+                </div>
+                <div class="bg-white border border-lightgray p-8 rounded shadow-sm">
+                    <div class="flex text-gold mb-4"><svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
+                    <p class="text-gray-600 mb-6 italic">"They made our haldi and mehendi so vibrant on camera. Every detail was flawlessly covered without them being intrusive at all."</p>
+                    <h4 class="font-bold text-charcoal">Neha & Kunal</h4><span class="text-sm text-gold font-semibold uppercase">Delhi</span>
+                </div>
+                <div class="bg-white border border-lightgray p-8 rounded shadow-sm">
+                    <div class="flex text-gold mb-4"><svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
+                    <p class="text-gray-600 mb-6 italic">"Simply the best decision we made for our wedding. The team was warm and completely blended with our families. We love our pre-wedding pictures!"</p>
+                    <h4 class="font-bold text-charcoal">Simran & Raj</h4><span class="text-sm text-gold font-semibold uppercase">Jaipur</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 px-4 bg-white">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16">
+            <div class="lg:w-1/2">
+                <h2 class="text-4xl font-bold text-charcoal mb-4">About Us</h2>
+                <div class="w-24 h-1 bg-gold mb-8"></div>
+                <p class="text-gray-600 leading-relaxed text-lg mb-6">
+                    Framegatha Photography Studio is a passionate team of creative visual artists devoted to storytelling. We weave your joy, tears, and spontaneous laughs into timeless art. From small intimate gatherings to big fat Indian weddings, our lenses catch the magic you feel but sometimes miss to see. 
+                </p>
+                <p class="text-gray-600 leading-relaxed text-lg">
+                    We believe that elegance is found in the candid moments. Founded a decade ago, our team has traveled to over fifty cities making memories permanent.
+                </p>
+            </div>
+            <div class="lg:w-1/2 grid grid-cols-2 gap-8 w-full">
+                <div class="bg-[#fafafa] p-6 text-center border border-lightgray rounded">
+                    <div class="text-4xl font-bold text-gold mb-2">500+</div><div class="text-charcoal font-semibold text-sm uppercase tracking-wide">Weddings</div>
+                </div>
+                <div class="bg-[#fafafa] p-6 text-center border border-lightgray rounded">
+                    <div class="text-4xl font-bold text-gold mb-2">1000+</div><div class="text-charcoal font-semibold text-sm uppercase tracking-wide">Happy Clients</div>
+                </div>
+                <div class="bg-[#fafafa] p-6 text-center border border-lightgray rounded">
+                    <div class="text-4xl font-bold text-gold mb-2">10+</div><div class="text-charcoal font-semibold text-sm uppercase tracking-wide">Years Experience</div>
+                </div>
+                <div class="bg-[#fafafa] p-6 text-center border border-lightgray rounded">
+                    <div class="text-4xl font-bold text-gold mb-2">50+</div><div class="text-charcoal font-semibold text-sm uppercase tracking-wide">Cities Covered</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 px-4 bg-[#fafafa]">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16"><h2 class="text-4xl font-bold text-charcoal mb-4">Contact Us</h2><div class="w-24 h-1 bg-gold mx-auto"></div></div>
+            <div class="flex flex-col lg:flex-row gap-16">
+                <div class="lg:w-1/3 flex flex-col gap-8">
+                    <div><h4 class="text-lg font-bold text-charcoal mb-2">Phone</h4><p class="text-gray-600">+91 98765 43210</p></div>
+                    <div><h4 class="text-lg font-bold text-charcoal mb-2">Email</h4><p class="text-gray-600">hello@framegatha.com</p></div>
+                    <div><h4 class="text-lg font-bold text-charcoal mb-2">Location</h4><p class="text-gray-600">Mumbai, Maharashtra</p></div>
+                    <div><h4 class="text-lg font-bold text-charcoal mb-2">Instagram</h4><p class="text-gold font-semibold">@framegatha</p></div>
+                </div>
+                <div class="lg:w-2/3 bg-white p-8 border border-lightgray rounded shadow-sm">
+                    <form class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div><label class="block text-sm font-semibold text-charcoal mb-2">Your Name</label><input type="text" class="w-full bg-[#f9f9f9] border border-lightgray px-4 py-3 rounded text-charcoal focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold" required></div>
+                            <div><label class="block text-sm font-semibold text-charcoal mb-2">Email Address</label><input type="email" class="w-full bg-[#f9f9f9] border border-lightgray px-4 py-3 rounded text-charcoal focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold" required></div>
+                        </div>
+                        <div><label class="block text-sm font-semibold text-charcoal mb-2">Message</label><textarea rows="4" class="w-full bg-[#f9f9f9] border border-lightgray px-4 py-3 rounded text-charcoal focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold" required></textarea></div>
+                        <button type="submit" class="bg-gold text-charcoal px-8 py-3 rounded font-bold hover:bg-yellow-600 transition-colors">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white py-12 px-4 border-t border-lightgray">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-center md:text-left"><a href="#home" class="text-2xl font-bold text-charcoal tracking-wider">FRAMEGATHA</a><p class="text-sm text-gray-500 mt-1">Capturing life's most precious moments.</p></div>
+            <div class="flex space-x-6 text-sm font-semibold text-charcoal uppercase tracking-wide"><a href="#home" class="hover:text-gold transition-colors">Home</a><a href="#gallery" class="hover:text-gold transition-colors">Gallery</a><a href="#services" class="hover:text-gold transition-colors">Services</a></div>
+            <div class="text-gray-500 text-sm">&copy; 2026 Framegatha Photography Studio</div>
+        </div>
+    </footer>
+
+    <!-- Profile Page View (Hidden by default) -->
+    <main id="profileView" class="hidden w-full bg-white transition-opacity duration-500 opacity-0 min-h-screen pb-20">
+        <!-- Hero Cover -->
+        <div class="relative w-full h-[50vh] md:h-[60vh] overflow-hidden">
+            <img id="profileCoverImg" src="" class="w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-black/50 z-10 transition-colors"></div>
+            
+            <div class="absolute top-6 left-4 md:top-8 md:left-8 z-20">
+                <button onclick="closeProfile()" class="flex items-center text-white hover:text-gold transition-colors font-bold group bg-charcoal/50 backdrop-blur-sm px-6 py-2 rounded-full border border-gray-400 hover:border-gold shadow-lg">
+                    <svg class="w-6 h-6 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    Back to Gallery
+                </button>
+            </div>
+
+            <div class="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-4">
+                <h1 id="profileName" class="text-4xl md:text-6xl lg:text-7xl text-white font-bold tracking-wide mb-3 drop-shadow-xl" style="font-family: 'Playfair Display', serif;"></h1>
+                <p id="profileEventType" class="text-lg md:text-2xl text-gold font-semibold uppercase tracking-widest drop-shadow-lg bg-black/30 px-6 py-1 rounded-full"></p>
+            </div>
+        </div>
+
+        <!-- Details & Story -->
+        <div class="max-w-6xl mx-auto py-16 px-4">
+            <div class="flex flex-col md:flex-row gap-12 items-stretch mb-20">
+                <!-- Left: Details -->
+                <div class="w-full md:w-1/3 bg-white border border-lightgray p-8 rounded-lg shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(201,168,76,0.15)] transition-shadow">
+                    <h3 class="text-2xl font-bold text-charcoal mb-6 border-b-2 border-gold pb-3 inline-block">Event Details</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="mt-1 p-2 bg-gold/10 rounded-full text-gold">
+                                <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Date</p>
+                                <p id="profileDate" class="text-base text-charcoal font-semibold"></p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="mt-1 p-2 bg-gold/10 rounded-full text-gold">
+                                <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Venue</p>
+                                <p id="profileVenue" class="text-base text-charcoal font-semibold"></p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="mt-1 p-2 bg-gold/10 rounded-full text-gold">
+                                <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 5a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-1.586a1 1 0 01-.707-.293l-1.121-1.121A2 2 0 0011.172 3H8.828a2 2 0 00-1.414.586L6.293 4.707A1 1 0 015.586 5H4zm6 9a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/></svg>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Photographer</p>
+                                <p class="text-base text-charcoal font-semibold">Framegatha Studio</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Story -->
+                <div class="w-full md:w-2/3 flex flex-col justify-center">
+                    <h3 class="text-4xl font-bold text-charcoal mb-4 tracking-tight">The Love Story</h3>
+                    <div class="w-16 h-1.5 bg-gold mb-8 rounded-full"></div>
+                    <div class="relative">
+                        <svg class="absolute -top-6 -left-6 w-16 h-16 text-gold/20 transform -scale-x-100" fill="currentColor" viewBox="0 0 32 32"><path d="M10 8h-6v10h6zM22 8h-6v10h6z"></path></svg>
+                        <p id="profileStory" class="text-gray-600 text-lg md:text-xl leading-relaxed italic relative z-10 bg-white/80 rounded-lg p-4"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6 Photos Grid -->
+            <div class="text-center mb-12">
+                <h3 class="text-4xl font-bold text-charcoal mb-4 tracking-tight">Event Gallery</h3>
+                <div class="w-24 h-1.5 bg-gold mx-auto rounded-full"></div>
+                <p class="text-gray-500 mt-4 max-w-2xl mx-auto">Beautiful moments captured forever.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="profileGrid">
+                <!-- JS dynamically inserts 6 photos -->
+            </div>
+            
+            <div class="mt-20 text-center">
+                <button onclick="closeProfile()" class="bg-gold text-charcoal font-bold py-4 px-12 rounded-sm shadow-xl hover:bg-charcoal hover:text-white transition-colors duration-300 uppercase tracking-widest border border-transparent">
+                    Back to All Albums
+                </button>
+            </div>
+        </div>
+    </main>
+
+
+    <!-- JavaScript -->
+    <script>
+        // Slideshow Logic
+        const slides = document.querySelectorAll('.hero-slide');
+        let currentSlide = 0;
+        function nextSlide() {
+            slides[currentSlide].classList.remove('opacity-100');
+            slides[currentSlide].classList.add('opacity-0');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.remove('opacity-0');
+            slides[currentSlide].classList.add('opacity-100');
+        }
+        setInterval(nextSlide, 3000);
+
+        // Mobile Menu Toggle
+        const mobileBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileBtn.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+
+        // Instant Price Quote Logic
+        const serviceSelect = document.getElementById('serviceSelect');
+        const priceBox = document.getElementById('priceBox');
+        const priceAmount = document.getElementById('priceAmount');
+        const priceQuoteForm = document.getElementById('priceQuoteForm');
+        const quoteSuccess = document.getElementById('quoteSuccess');
+        serviceSelect.addEventListener('change', function() {
+            const price = this.options[this.selectedIndex].getAttribute('data-price');
+            if (price) { priceBox.classList.remove('hidden'); priceAmount.innerText = price; } 
+            else { priceBox.classList.add('hidden'); }
+        });
+        priceQuoteForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            quoteSuccess.classList.remove('hidden');
+            setTimeout(() => {
+                quoteSuccess.classList.add('hidden');
+                priceQuoteForm.reset();
+                priceBox.classList.add('hidden');
+            }, 4000);
+        });
+
+        // Filter Gallery Logic
+        function filterGallery(category) {
+            // Un-hide mainView if we're on a profile view
+            const profileView = document.getElementById('profileView');
+            const mainView = document.getElementById('mainView');
+            if (profileView && !profileView.classList.contains('hidden')) {
+                profileView.classList.add('hidden');
+                profileView.classList.add('opacity-0');
+                mainView.classList.remove('hidden');
+            }
+
+            // Smooth Scroll
+            const gallerySection = document.getElementById('gallery');
+            if (window.scrollY > gallerySection.offsetTop || window.scrollY < gallerySection.offsetTop - 150) {
+                gallerySection.scrollIntoView({behavior: 'smooth', block: 'start'});
+            }
+
+            // Sync Tab Buttons
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                if (tab.getAttribute('data-tab') === category) {
+                    tab.classList.remove('bg-white', 'text-charcoal', 'border-charcoal');
+                    tab.classList.add('bg-gold', 'text-white', 'border-gold');
+                } else {
+                    tab.classList.remove('bg-gold', 'text-white', 'border-gold');
+                    tab.classList.add('bg-white', 'text-charcoal', 'border-charcoal');
+                }
+            });
+
+            // Sync Navbar Links (Highlight active category)
+            document.querySelectorAll('.nav-filter').forEach(link => {
+                if(link.getAttribute('data-navtab') === category) {
+                    link.classList.add('text-gold');
+                    link.classList.remove('text-charcoal'); // Active styling overrides
+                } else {
+                    link.classList.add('text-charcoal');
+                    link.classList.remove('text-gold');
+                }
+            });
+
+            // Filter the Cards with fade transition
+            let visibleCount = 0;
+            document.querySelectorAll('.gallery-card').forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'block';
+                    setTimeout(() => { card.style.opacity = '1'; }, 50);
+                    visibleCount++;
+                } else {
+                    card.style.opacity = '0';
+                    setTimeout(() => { card.style.display = 'none'; }, 300);
+                }
+            });
+
+            // Update Label
+            const catName = category === 'all' ? 'All' : (category.charAt(0).toUpperCase() + category.slice(1).replace('Prewedding', 'Pre-Wedding'));
+            document.getElementById('galleryCount').innerText = `Showing ${visibleCount} ${catName} photos`;
+        }
+
+        // Profile Page Logic
+        const profileViewElement = document.getElementById('profileView');
+        const mainViewElement = document.getElementById('mainView');
+        
+        const profileName = document.getElementById('profileName');
+        const profileEventType = document.getElementById('profileEventType');
+        const profileDate = document.getElementById('profileDate');
+        const profileVenue = document.getElementById('profileVenue');
+        const profileStory = document.getElementById('profileStory');
+        const profileCoverImg = document.getElementById('profileCoverImg');
+        const profileGrid = document.getElementById('profileGrid');
+        
+        const galleryImgs = [
+            "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1542036728-662f5d9daaf3?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1583939000340-c6e73f8e5621?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=800&q=80"
+        ];
+
+        // Replace old openModal to open full profile
+        function openModal(coupleName, eventType, location, date) {
+            let coverSrc = "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1920&q=80";
+            if (window.event && window.event.currentTarget) {
+                const img = window.event.currentTarget.querySelector('img');
+                if (img) coverSrc = img.src.replace('w=600', 'w=1920');
+            }
+
+            // Populate data
+            profileName.innerText = coupleName;
+            profileEventType.innerText = `${eventType} in ${location}`;
+            profileDate.innerText = date;
+            profileVenue.innerText = location;
+            profileCoverImg.src = coverSrc;
+            
+            profileStory.innerHTML = `This album beautifully captures the vibrant energy and heartfelt emotions of <strong>${coupleName}</strong>'s special day. Surviving the test of time, their magical <strong>${eventType}</strong> was a magnificent celebration surrounded by family and close friends in the lovely setting of <strong>${location}</strong>. Each moment was perfectly preserved directly in the frame.`;
+
+            // Randomly select 6 photos for the grid
+            const currentModalImages = [...galleryImgs].sort(() => 0.5 - Math.random()).slice(0, 6);
+            
+            profileGrid.innerHTML = '';
+            currentModalImages.forEach((url) => {
+                const img = document.createElement('img');
+                img.src = url;
+                img.className = "w-full h-80 object-cover rounded shadow-md border-2 border-transparent hover:border-gold transition-colors duration-300 cursor-pointer";
+                profileGrid.appendChild(img);
+            });
+
+            // Transition logic
+            mainViewElement.classList.add('hidden');
+            window.scrollTo(0, 0);
+            
+            profileViewElement.classList.remove('hidden');
+            setTimeout(() => {
+                profileViewElement.classList.remove('opacity-0');
+            }, 50);
+        }
+
+        function closeProfile() {
+            profileViewElement.classList.add('opacity-0');
+            setTimeout(() => {
+                profileViewElement.classList.add('hidden');
+                mainViewElement.classList.remove('hidden');
+                
+                // Return safely to gallery position offset by navbar
+                const gallerySection = document.getElementById('gallery');
+                gallerySection.scrollIntoView({behavior: 'instant', block: 'start'});
+                window.scrollBy(0, -80); 
+            }, 300);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (!profileViewElement.classList.contains('hidden') && e.key === 'Escape') {
+                closeProfile();
+            }
+        });
+
+        // Active Nav Spy Scroll
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link:not(.nav-filter)');
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
